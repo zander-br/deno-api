@@ -19,4 +19,16 @@ function getUsers({ response }: { response: Response }) {
   response.body = users;
 }
 
-export { getUsers }
+function getUser({ params, response }: { params: { id: string }; response: Response }) {
+  const user = users.find(user => user.id === params.id);
+
+  if (user) {
+    response.status = 200;
+    response.body = user;
+  } else {
+    response.status = 404;
+    response.body = { message: "User not found." };
+  }
+}
+
+export { getUsers, getUser }
