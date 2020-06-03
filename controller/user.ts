@@ -1,4 +1,4 @@
-import { Response } from "https://deno.land/x/oak/mod.ts";
+import { Response, Request } from "https://deno.land/x/oak/mod.ts";
 
 import { User } from "../model/user.ts";
 
@@ -31,4 +31,14 @@ function getUser({ params, response }: { params: { id: string }; response: Respo
   }
 }
 
-export { getUsers, getUser }
+async function addUser({ request, response }: { request: Request; response: Response }) {
+  const { id, name, email } = await request.body();
+  const user = { id, name, email };
+
+  users.push(user);
+
+  response.status = 201;
+  response.body = user;
+}
+
+export { getUsers, getUser, addUser }
